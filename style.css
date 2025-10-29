@@ -42,3 +42,46 @@ button {
 button:hover {
     opacity: 0.9;
 }
+
+/* Мобильное управление */
+.mobile-controls {
+    display: none;
+    margin-top: 20px;
+}
+
+.control-row {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin: 5px 0;
+}
+
+.control-btn {
+    width: 60px;
+    height: 60px;
+    font-size: 24px;
+    background: var(--tg-theme-button-color, #2481cc);
+    color: var(--tg-theme-button-text-color, #ffffff);
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.control-btn:active {
+    background: var(--tg-theme-link-color, #1a6da8);
+    transform: scale(0.95);
+}
+
+/* Показываем управление только на мобильных */
+@media (max-width: 768px) {
+    .mobile-controls {
+        display: block;
+    }
+    
+    .controls p {
+        display: none;
+    }
+}
