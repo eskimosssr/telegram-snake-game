@@ -23,6 +23,45 @@ let dx = 0;
 let dy = 0;
 let score = 0;
 
+// Функции для мобильного управления
+function moveUp() { if (dy !== 1) { dx = 0; dy = -1; } }
+function moveDown() { if (dy !== -1) { dx = 0; dy = 1; } }
+function moveLeft() { if (dx !== 1) { dx = -1; dy = 0; } }
+function moveRight() { if (dx !== -1) { dx = 1; dy = 0; } }
+
+// Свайпы для мобильных
+let touchStartX = 0;
+let touchStartY = 0;
+
+canvas.addEventListener('touchstart', (e) => {
+    touchStartX = e.touches[0].clientX;
+    touchStartY = e.touches[0].clientY;
+    e.preventDefault();
+});
+
+canvas.addEventListener('touchmove', (e) => {
+    e.preventDefault();
+});
+
+canvas.addEventListener('touchend', (e) => {
+    const touchEndX = e.changedTouches[0].clientX;
+    const touchEndY = e.changedTouches[0].clientY;
+    
+    const diffX = touchEndX - touchStartX;
+    const diffY = touchEndY - touchStartY;
+    
+    // Определяем направление свайпа
+    if (Math.abs(diffX) > Math.abs(diffY)) {
+        // Горизонтальный свайп
+        if (diffX > 0 && dx !== -1) { dx = 1; dy = 0; }  // Вправо
+        else if (diffX < 0 && dx !== 1) { dx = -1; dy = 0; } // Влево
+    } else {
+        // Вертикальный свайп
+        if (diffY > 0 && dy !== -1) { dx = 0; dy = 1; }  // Вниз
+        else if (diffY < 0 && dy !== 1) { dx = 0; dy = -1; } // Вверх
+    }
+});
+
 // Создаем еду
 function createFood() {
     food = {
@@ -69,7 +108,7 @@ function gameLoop() {
     ctx.fillRect(food.x * gridSize, food.y * gridSize, gridSize - 2, gridSize - 2);
 }
 
-// Управление
+// Управление с клавиатуры
 document.addEventListener('keydown', (e) => {
     switch(e.key) {
         case 'ArrowUp': if (dy !== 1) { dx = 0; dy = -1; } break;
